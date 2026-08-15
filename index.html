@@ -91,6 +91,12 @@
     transition: all 0.25s;
   }
   .nav-links a:hover { color: var(--text); background: var(--surface-hover); }
+  .language-switch {
+    color: var(--text); background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 11px; margin-left: 8px; cursor: pointer;
+    font: 600 0.8rem/1 'Inter', -apple-system, sans-serif; transition: all 0.25s;
+  }
+  .language-switch:hover { background: var(--surface-hover); transform: translateY(-1px); }
 
   /* ====== Section Defaults ====== */
   section { position: relative; z-index: 1; }
@@ -296,6 +302,7 @@
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 16px; padding: 32px; overflow: hidden;
   }
+  .contribution-chart { display: block; width: 100%; min-height: 138px; border: 0; }
 
   .contrib-grid {
     display: flex; gap: 3px; margin-bottom: 16px;
@@ -383,7 +390,9 @@
   /* ====== Responsive ====== */
   @media (max-width: 768px) {
     nav { padding: 12px 20px; }
-    .nav-links { display: none; }
+    .nav-links { display: flex; }
+    .nav-links a { display: none; }
+    .language-switch { margin-left: 0; }
     .hero { padding: 100px 20px 60px; }
     .stats-bar { gap: 20px; }
     .about-grid { grid-template-columns: 1fr; }
@@ -391,6 +400,7 @@
     .hero-actions { flex-direction: column; }
     .btn { justify-content: center; }
     .contact-card { padding: 36px 24px; }
+    .contribution-chart { min-height: 115px; }
   }
 
   /* ====== Cursor Glow ====== */
@@ -446,11 +456,12 @@
 <nav id="navbar">
   <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">YH.</div>
   <div class="nav-links">
-    <a href="#about">关于</a>
-    <a href="#skills">技能</a>
-    <a href="#projects">项目</a>
-    <a href="#activity">动态</a>
-    <a href="#contact">联系</a>
+    <a href="#about" data-i18n="navAbout">关于</a>
+    <a href="#skills" data-i18n="navSkills">技能</a>
+    <a href="#projects" data-i18n="navProjects">项目</a>
+    <a href="#activity" data-i18n="navActivity">动态</a>
+    <a href="#contact" data-i18n="navContact">联系</a>
+    <button class="language-switch" id="languageSwitch" type="button" aria-label="Switch to English">EN</button>
   </div>
 </nav>
 
@@ -465,27 +476,27 @@
       Hi, I'm <span class="gradient">Yukkit Hou</span>
     </h1>
     <p class="hero-sub">
-      北京大学智能科学与技术专业大三学生。专注计算机视觉、多模态学习与 3D 重建，热爱用代码探索 AI 的边界。
+      <span data-i18n="heroSub">北京大学智能科学与技术专业大三学生。专注计算机视觉、多模态学习与 3D 重建，热爱用代码探索 AI 的边界。</span>
     </p>
     <div class="hero-actions">
       <a href="https://github.com/Oscarhouhyk" target="_blank" class="btn btn-primary">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         View GitHub
       </a>
-      <a href="#projects" class="btn btn-ghost">探索项目 →</a>
+      <a href="#projects" class="btn btn-ghost"><span data-i18n="exploreProjects">探索项目</span> →</a>
     </div>
     <div class="stats-bar">
       <div class="stat">
         <div class="stat-num counter" data-target="7">0</div>
-        <div class="stat-label">Public Repos</div>
+        <div class="stat-label" data-i18n="repos">Public Repos</div>
       </div>
       <div class="stat">
         <div class="stat-num counter" data-target="18">0</div>
-        <div class="stat-label">Stars Given</div>
+        <div class="stat-label" data-i18n="stars">Stars Given</div>
       </div>
       <div class="stat">
         <div class="stat-num counter" data-target="6">0</div>
-        <div class="stat-label">Course Projects</div>
+        <div class="stat-label" data-i18n="courseProjects">Course Projects</div>
       </div>
     </div>
   </div>
@@ -518,28 +529,28 @@
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag" style="background:rgba(255,107,107,0.12);color:var(--accent-1);">About Me</div>
-      <h2 class="section-title">探索 AI 的边界</h2>
+      <h2 class="section-title" data-i18n="aboutTitle">探索 AI 的边界</h2>
     </div>
     <div class="about-grid">
       <div class="about-card reveal">
         <div class="about-icon" style="background:rgba(255,107,107,0.12);">👁️</div>
-        <h3>计算机视觉</h3>
-        <p>基于 Deep Image Prior (CVPR 2017) 的改进研究，探索无监督图像重建的可能性。</p>
+        <h3 data-i18n="visionTitle">计算机视觉</h3>
+        <p data-i18n="visionDesc">基于 Deep Image Prior (CVPR 2017) 的改进研究，探索无监督图像重建的可能性。</p>
       </div>
       <div class="about-card reveal">
         <div class="about-icon" style="background:rgba(51,154,240,0.12);">🌐</div>
-        <h3>多模态学习</h3>
-        <p>改进 DeGauss (ICCV 2025)，实现 3D 高斯泼溅的多模态语言-视觉融合。</p>
+        <h3 data-i18n="multimodalTitle">多模态学习</h3>
+        <p data-i18n="multimodalDesc">改进 DeGauss (ICCV 2025)，实现 3D 高斯泼溅的多模态语言-视觉融合。</p>
       </div>
       <div class="about-card reveal">
         <div class="about-icon" style="background:rgba(204,93,232,0.12);">🤖</div>
-        <h3>机器人学</h3>
-        <p>改进 OnlineLangSplat，实现在线语言引导的 3D 场景理解与机器人交互。</p>
+        <h3 data-i18n="roboticsTitle">机器人学</h3>
+        <p data-i18n="roboticsDesc">改进 OnlineLangSplat，实现在线语言引导的 3D 场景理解与机器人交互。</p>
       </div>
       <div class="about-card reveal">
         <div class="about-icon" style="background:rgba(81,207,102,0.12);">🌊</div>
-        <h3>生成模型</h3>
-        <p>改进 Tree-Ring Watermark (NeurIPS 2023)，研究扩散模型的数字水印技术。</p>
+        <h3 data-i18n="generativeTitle">生成模型</h3>
+        <p data-i18n="generativeDesc">改进 Tree-Ring Watermark (NeurIPS 2023)，研究扩散模型的数字水印技术。</p>
       </div>
     </div>
   </div>
@@ -550,7 +561,7 @@
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag" style="background:rgba(51,154,240,0.12);color:var(--accent-4);">Tech Stack</div>
-      <h2 class="section-title">技术栈</h2>
+      <h2 class="section-title" data-i18n="skillsTitle">技术栈</h2>
     </div>
     <div class="skill-cloud reveal">
       <span class="skill-tag" data-color="1">Python</span>
@@ -578,7 +589,7 @@
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag" style="background:rgba(204,93,232,0.12);color:var(--accent-5);">Projects</div>
-      <h2 class="section-title">精选项目</h2>
+      <h2 class="section-title" data-i18n="projectsTitle">精选项目</h2>
     </div>
     <div class="project-grid">
 
@@ -588,7 +599,7 @@
           <div class="project-icon" style="background:rgba(255,107,107,0.12);">🤖</div>
           <div class="project-name">Online-Language-Splatting-V2</div>
         </div>
-        <div class="project-desc">PKU 2025 Fall 机器人学导论期末项目，基于 OnlineLangSplat 的改进实现。</div>
+        <div class="project-desc" data-i18n="project1">PKU 2025 Fall 机器人学导论期末项目，基于 OnlineLangSplat 的改进实现。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</span>
           <span class="project-stars">⭐ 1</span>
@@ -601,7 +612,7 @@
           <div class="project-icon" style="background:rgba(51,154,240,0.12);">🌐</div>
           <div class="project-name">DeGauss-V2</div>
         </div>
-        <div class="project-desc">PKU 2025 Fall 多模态学习期末项目，基于 DeGauss (ICCV 2025) 的改进实现。</div>
+        <div class="project-desc" data-i18n="project2">PKU 2025 Fall 多模态学习期末项目，基于 DeGauss (ICCV 2025) 的改进实现。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</span>
           <span>📄 GPL-3.0</span>
@@ -614,7 +625,7 @@
           <div class="project-icon" style="background:rgba(81,207,102,0.12);">👁️</div>
           <div class="project-name">Computer-Vision-24Fall</div>
         </div>
-        <div class="project-desc">PKU 2024 Fall 计算机视觉期末项目，基于 Deep Image Prior (CVPR 2017) 的改进研究。</div>
+        <div class="project-desc" data-i18n="project3">PKU 2024 Fall 计算机视觉期末项目，基于 Deep Image Prior (CVPR 2017) 的改进研究。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</span>
         </div>
@@ -626,7 +637,7 @@
           <div class="project-icon" style="background:rgba(204,93,232,0.12);">🌊</div>
           <div class="project-name">Tree-Ring-Watermark</div>
         </div>
-        <div class="project-desc">PKU 2025 Fall 生成模型导论期末项目，基于 Tree-Ring Watermark (NeurIPS 2023) 的改进。</div>
+        <div class="project-desc" data-i18n="project4">PKU 2025 Fall 生成模型导论期末项目，基于 Tree-Ring Watermark (NeurIPS 2023) 的改进。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</span>
         </div>
@@ -638,7 +649,7 @@
           <div class="project-icon" style="background:rgba(255,169,77,0.12);">📐</div>
           <div class="project-name">Geometry-Computing</div>
         </div>
-        <div class="project-desc">几何计算期末项目，探索计算几何在实际问题中的应用。</div>
+        <div class="project-desc" data-i18n="project5">几何计算期末项目，探索计算几何在实际问题中的应用。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</span>
         </div>
@@ -650,7 +661,7 @@
           <div class="project-icon" style="background:rgba(34,184,207,0.12);">⚡</div>
           <div class="project-name">vcx2024-Final-Project</div>
         </div>
-        <div class="project-desc">VCX 2024 课程期末项目，C++ 实现。</div>
+        <div class="project-desc" data-i18n="project6">VCX 2024 课程期末项目，C++ 实现。</div>
         <div class="project-meta">
           <span class="project-lang"><span class="lang-dot" style="background:#f34b7d;"></span> C++</span>
         </div>
@@ -665,19 +676,10 @@
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag" style="background:rgba(81,207,102,0.12);color:var(--accent-3);">Activity</div>
-      <h2 class="section-title">GitHub 动态</h2>
+      <h2 class="section-title" data-i18n="activityTitle">GitHub 动态</h2>
     </div>
     <div class="activity-container reveal">
-      <div class="contrib-grid" id="contribGrid"></div>
-      <div class="contrib-legend">
-        <span>Less</span>
-        <div class="contrib-day" data-level="0"></div>
-        <div class="contrib-day" data-level="1"></div>
-        <div class="contrib-day" data-level="2"></div>
-        <div class="contrib-day" data-level="3"></div>
-        <div class="contrib-day" data-level="4"></div>
-        <span>More</span>
-      </div>
+      <img class="contribution-chart" id="contributionChart" alt="Oscarhouhyk's GitHub contributions over the past year">
     </div>
   </div>
 </section>
@@ -687,8 +689,8 @@
   <div class="container">
     <div class="contact-card reveal">
       <div class="section-tag" style="background:rgba(255,169,77,0.12);color:var(--accent-2);">Get in Touch</div>
-      <h2 class="section-title" style="margin-top:12px;">保持联系</h2>
-      <p style="color:var(--text-dim);margin-top:12px;font-size:0.95rem;">欢迎交流 CV、多模态、3D 重建相关话题</p>
+      <h2 class="section-title" style="margin-top:12px;" data-i18n="contactTitle">保持联系</h2>
+      <p style="color:var(--text-dim);margin-top:12px;font-size:0.95rem;" data-i18n="contactText">欢迎交流 CV、多模态、3D 重建相关话题</p>
       <div class="contact-links">
         <a href="https://github.com/Oscarhouhyk" target="_blank" class="contact-link">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -703,10 +705,67 @@
 </section>
 
 <footer>
-  <p>Built with ❤️ by Yukkit Hou · PKU 27' · Intelligence Science & Technology</p>
+  <p data-i18n="footer">Built with ❤️ by Yukkit Hou · PKU 27' · Intelligence Science & Technology</p>
 </footer>
 
 <script>
+// ====== Language switch ======
+const translations = {
+  zh: {
+    navAbout: '关于', navSkills: '技能', navProjects: '项目', navActivity: '动态', navContact: '联系',
+    heroSub: '北京大学智能科学与技术专业大三学生。专注计算机视觉、多模态学习与 3D 重建，热爱用代码探索 AI 的边界。',
+    exploreProjects: '探索项目', repos: '公开仓库', stars: '获得星标', courseProjects: '课程项目',
+    aboutTitle: '探索 AI 的边界', visionTitle: '计算机视觉',
+    visionDesc: '基于 Deep Image Prior (CVPR 2017) 的改进研究，探索无监督图像重建的可能性。',
+    multimodalTitle: '多模态学习', multimodalDesc: '改进 DeGauss (ICCV 2025)，实现 3D 高斯泼溅的多模态语言-视觉融合。',
+    roboticsTitle: '机器人学', roboticsDesc: '改进 OnlineLangSplat，实现在线语言引导的 3D 场景理解与机器人交互。',
+    generativeTitle: '生成模型', generativeDesc: '改进 Tree-Ring Watermark (NeurIPS 2023)，研究扩散模型的数字水印技术。',
+    skillsTitle: '技术栈', projectsTitle: '精选项目',
+    project1: 'PKU 2025 Fall 机器人学导论期末项目，基于 OnlineLangSplat 的改进实现。',
+    project2: 'PKU 2025 Fall 多模态学习期末项目，基于 DeGauss (ICCV 2025) 的改进实现。',
+    project3: 'PKU 2024 Fall 计算机视觉期末项目，基于 Deep Image Prior (CVPR 2017) 的改进研究。',
+    project4: 'PKU 2025 Fall 生成模型导论期末项目，基于 Tree-Ring Watermark (NeurIPS 2023) 的改进。',
+    project5: '几何计算期末项目，探索计算几何在实际问题中的应用。', project6: 'VCX 2024 课程期末项目，C++ 实现。',
+    activityTitle: 'GitHub 动态', less: '较少', more: '较多', activityRefreshed: '条近期公开活动 · 刚刚更新', activityUnavailable: '暂时无法获取公开 GitHub 活动，请稍后重试。', activityRefreshFailed: '无法刷新公开活动', contactTitle: '保持联系', contactText: '欢迎交流 CV、多模态、3D 重建相关话题',
+    footer: 'Yukkit Hou 用 ❤️ 构建 · 北京大学 2027 届 · 智能科学与技术'
+  },
+  en: {
+    navAbout: 'About', navSkills: 'Skills', navProjects: 'Projects', navActivity: 'Activity', navContact: 'Contact',
+    heroSub: 'A junior majoring in Intelligence Science and Technology at Peking University. I focus on computer vision, multimodal learning, and 3D reconstruction—and enjoy exploring the frontier of AI through code.',
+    exploreProjects: 'Explore Projects', repos: 'Public Repos', stars: 'Stars Given', courseProjects: 'Course Projects',
+    aboutTitle: 'Exploring the Frontier of AI', visionTitle: 'Computer Vision',
+    visionDesc: 'Researching improvements to Deep Image Prior (CVPR 2017) and the possibilities of unsupervised image reconstruction.',
+    multimodalTitle: 'Multimodal Learning', multimodalDesc: 'Improving DeGauss (ICCV 2025) for multimodal language–vision fusion in 3D Gaussian Splatting.',
+    roboticsTitle: 'Robotics', roboticsDesc: 'Extending OnlineLangSplat for online language-guided 3D scene understanding and robotic interaction.',
+    generativeTitle: 'Generative Models', generativeDesc: 'Improving Tree-Ring Watermark (NeurIPS 2023) to study digital watermarking for diffusion models.',
+    skillsTitle: 'Tech Stack', projectsTitle: 'Selected Projects',
+    project1: 'Final project for PKU Introduction to Robotics, Fall 2025—an improved implementation based on OnlineLangSplat.',
+    project2: 'Final project for PKU Multimodal Learning, Fall 2025—an improved implementation based on DeGauss (ICCV 2025).',
+    project3: 'Final project for PKU Computer Vision, Fall 2024—research improving Deep Image Prior (CVPR 2017).',
+    project4: 'Final project for PKU Introduction to Generative Models, Fall 2025—an improvement on Tree-Ring Watermark (NeurIPS 2023).',
+    project5: 'Final project in Geometry Computing, exploring practical applications of computational geometry.', project6: 'Final project for VCX 2024, implemented in C++.',
+    activityTitle: 'GitHub Activity', less: 'Less', more: 'More', activityRefreshed: 'recent public events · refreshed just now', activityUnavailable: 'Public GitHub activity is temporarily unavailable. Please try again shortly.', activityRefreshFailed: 'Unable to refresh public activity', contactTitle: 'Let\'s Connect', contactText: 'I would love to talk about computer vision, multimodal learning, and 3D reconstruction.',
+    footer: 'Built with ❤️ by Yukkit Hou · PKU 27\' · Intelligence Science & Technology'
+  }
+};
+
+function setLanguage(language) {
+  const copy = translations[language];
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = copy[el.dataset.i18n]; });
+  document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+  document.title = language === 'zh' ? 'Yukkit Hou — 个人主页' : 'Yukkit Hou — Portfolio';
+  const switcher = document.getElementById('languageSwitch');
+  switcher.textContent = language === 'zh' ? 'EN' : '中文';
+  switcher.setAttribute('aria-label', language === 'zh' ? 'Switch to English' : '切换至中文');
+  localStorage.setItem('preferred-language', language);
+}
+
+const savedLanguage = localStorage.getItem('preferred-language');
+setLanguage(savedLanguage === 'en' ? 'en' : 'zh');
+document.getElementById('languageSwitch').addEventListener('click', () => {
+  setLanguage(document.documentElement.lang === 'en' ? 'zh' : 'en');
+});
+
 // ====== Cursor Glow ======
 const glow = document.getElementById('cursorGlow');
 document.addEventListener('mousemove', e => {
@@ -756,59 +815,9 @@ document.querySelectorAll('.project-card').forEach(card => {
   });
 });
 
-// ====== Contribution Graph (simulated) ======
-const grid = document.getElementById('contribGrid');
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const today = new Date();
-const startDate = new Date(today);
-startDate.setDate(startDate.getDate() - 365);
-
-// Generate weeks
-const weeks = [];
-let current = new Date(startDate);
-// Align to Sunday
-current.setDate(current.getDate() - current.getDay());
-
-while (current <= today) {
-  const week = [];
-  for (let d = 0; d < 7; d++) {
-    const dateStr = current.toISOString().slice(0, 10);
-    // Simulate contribution levels with some pattern
-    const dayOfYear = Math.floor((current - new Date(current.getFullYear(), 0, 0)) / 86400000);
-    const seed = (dayOfYear * 7 + current.getFullYear()) % 10;
-    let level = 0;
-    if (current <= today && current >= startDate) {
-      if (seed < 2) level = 0;
-      else if (seed < 4) level = 1;
-      else if (seed < 6) level = 2;
-      else if (seed < 8) level = 3;
-      else level = 4;
-      // Less activity on weekends
-      if (d === 0 || d === 6) level = Math.max(0, level - 1);
-    }
-    week.push({ date: dateStr, level });
-    current.setDate(current.getDate() + 1);
-  }
-  weeks.push(week);
-}
-
-// Render
-weeks.forEach((week, wi) => {
-  const col = document.createElement('div');
-  col.className = 'contrib-week';
-  week.forEach((day, di) => {
-    const cell = document.createElement('div');
-    cell.className = 'contrib-day';
-    cell.dataset.level = day.level;
-    const tip = document.createElement('div');
-    tip.className = 'contrib-tooltip';
-    const count = day.level === 0 ? 'No contributions' : day.level + ' contribution' + (day.level > 1 ? 's' : '');
-    tip.textContent = count + ' on ' + day.date;
-    cell.appendChild(tip);
-    col.appendChild(cell);
-  });
-  grid.appendChild(col);
-});
+// ====== GitHub Profile contribution graph ======
+const chart = document.getElementById('contributionChart');
+chart.src = 'https://gh-heat.anishroy.com/api/Oscarhouhyk/svg?theme=green&darkMode=true';
 
 // ====== Smooth anchor scroll ======
 document.querySelectorAll('a[href^="#"]').forEach(a => {
